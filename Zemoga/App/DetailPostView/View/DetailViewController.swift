@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 protocol DetailViewDelegate: AnyObject {
     func isLiked(value: Bool, id: Int)
 }
@@ -79,17 +80,17 @@ class DetailViewController: UIViewController {
     }
     
     func setupLikeIcon() {
-//        if viewModel.post.isLiked {
-//            likeThumbImage.image = UIImage(systemName: "hand.thumbsup.fill")
-//        } else {
-//            likeThumbImage.image = UIImage(systemName: "hand.thumbsup")
-//        }
+        if viewModel.post.isLiked {
+            likeThumbImage.image = UIImage(systemName: "hand.thumbsup.fill")
+        } else {
+            likeThumbImage.image = UIImage(systemName: "hand.thumbsup")
+        }
     }
     
     func setupLikeButtonContainer() {
         likeContainer.backgroundColor = Color.secondary
         likeContainer.corners(8)
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(self.like))
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(self.likePost))
         likeContainer.addGestureRecognizer(gesture)
         likeContainer.isUserInteractionEnabled = true
     }
@@ -113,14 +114,14 @@ class DetailViewController: UIViewController {
         delegateCoordinator?.goBack()
     }
    
-    @objc func like() {
-//        if viewModel.post.isLiked {
-//            likeThumbImage.image = UIImage(systemName: "hand.thumbsup")
-//            delegateDetailView.isLiked(value: false, id: viewModel.post.id)
-//        } else {
-//            likeThumbImage.image = UIImage(systemName: "hand.thumbsup.fill")
-//            delegateDetailView.isLiked(value: true, id: viewModel.post.id)
-//        }
+    @objc func likePost() {
+        if viewModel.post.isLiked {
+            likeThumbImage.image = UIImage(systemName: "hand.thumbsup")
+            delegateDetailView.isLiked(value: false, id: viewModel.post.id)
+        } else {
+            likeThumbImage.image = UIImage(systemName: "hand.thumbsup.fill")
+            delegateDetailView.isLiked(value: true, id: viewModel.post.id)
+        }
     }
 }
 
@@ -159,6 +160,6 @@ extension DetailViewController: DetailViewModelDelegate {
     func showError(error: String) {
         defer { GlobalProgressHUD.hide() }
         
-        self.showAlert(title: "Information Message", message: error)
+        self.showAlert(title: "Information Message", message: "There was an problem trying to recieve the information please try again in or contact with the desktop service at support@service.com")
     }
 }

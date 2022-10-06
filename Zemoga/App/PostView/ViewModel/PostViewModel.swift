@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 
 protocol PostViewModelDelegate: AnyObject {
-    func updateView(posts: [Post])
+    func updateView()
     func showError(error: String)
 }
 
@@ -18,6 +18,7 @@ class PostViewModel {
     
     var posts: [NSManagedObject] = []
     var container: NSPersistentContainer!
+    var likedPosts: [Int: Bool] = [:]
     
     func requestPosts() {
         NetworkManager.shared.requestPosts(parameters: "") { response in
@@ -25,9 +26,13 @@ class PostViewModel {
                 switch response {
                 case .success(let value):
                     log.info("Getting post information successful: \(Date().description)")
-                    posts = value
-                    self.delegate?.updateView(posts: value)
+                    posts = loadPostData()
+                    self.delegate?.updateView()
                 case .failure(let error):
+                    posts = loadPostData()
+                    if !posts.isEmpty {
+                        self.delegate?.updateView()
+                    }
                     log.error("Error getting post information: " + error.localizedDescription)
                     self.delegate?.showError(error: "Error: \(error.localizedDescription): \(error)")
                 }
@@ -35,47 +40,29 @@ class PostViewModel {
         }
     }
     
-    func createPersistentContainer() {
-        // Create the persistent container and point to the xcdatamodeld - so matches the xcdatamodeld filename
-        container = NSPersistentContainer(name: "CoreDataUsingCodable")
-        
-        // load the database if it exists, if not create it.
-        container.loadPersistentStores { storeDescription, error in
-            // resolve conflict by using correct NSMergePolicy
-            self.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-            
-            if let error = error {
-                print("Unresolved error \(error)")
+    func loadPostData() -> [NSManagedObject] {
+        posts = PersistanceManager.shared.loadPostData()
+        return posts
+    }
+    
+    // MARK: - Custom
+    func setLikedPosts() {
+        var index = 0
+        while index < posts.count {
+            var post = posts[index] as! Post
+            if likedPosts[post.id] != nil {
+                (posts[index] as! Post).isLiked = likedPosts[post.id]!
             }
+            index+=1
         }
     }
     
-    func loadSavedData() {
-        let request: NSFetchRequest<Post> = Post.fetchRequest()
-//        let sort = NSSortDescriptor(key: "gitcommit.committer.date", ascending: false)
-//        request.sortDescriptors = [sort]
-        
-        do {
-            // fetch is performed on the NSManagedObjectContext
-            posts = try container.viewContext.fetch(request)
-            print("Got \(posts.count) commits")
-            //tableView.reloadData()
-        } catch {
-            print("Fetch failed")
-        }
-    }
-    
-    // save changes from memory back to the database (from memory)
-    // viewContext is checked for changes
-    // then saves are comitted to the store
-    func saveContext() {
-        if container.viewContext.hasChanges {
-            do {
-                print ("Saved")
-                try container.viewContext.save()
-            } catch {
-                print("An error occurred while saving: \(error)")
-            }
-        }
+    func sortedPosts() {
+        var sortedPosts: [NSManagedObject] = []
+        let liked = posts.filter({($0 as! Post).isLiked == true})
+        let unliked = posts.filter({($0 as! Post).isLiked == false})
+        sortedPosts.append(contentsOf: liked)
+        sortedPosts.append(contentsOf: unliked)
+        posts = sortedPosts
     }
 }

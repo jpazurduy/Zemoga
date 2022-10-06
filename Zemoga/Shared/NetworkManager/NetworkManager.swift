@@ -23,6 +23,7 @@ enum WebError: Error {
     case badURL
     case unknown(Error)
     case noData
+    case noConnection
 }
 
 enum Result<T, Error> {
@@ -38,30 +39,17 @@ class NetworkManager {
     private var session: URLSession?
     private var dataTask: URLSessionDataTask?
     private var contentType = "application/json"
-    private var container: NSPersistentContainer!
     
     static let shared = NetworkManager()
     
     @discardableResult
     private init(sessionConfiguration: URLSessionConfiguration = URLSessionConfiguration.default,
-                 timeout: Double = 60.0) {
+                 timeout: Double = 10.0) {
         
         self.sessionConfiguration = sessionConfiguration
         self.sessionConfiguration.timeoutIntervalForRequest = timeout
+        self.sessionConfiguration.timeoutIntervalForResource = timeout
         self.session = URLSession(configuration: self.sessionConfiguration)
-        
-        // Create the persistent container and point to the xcdatamodeld - so matches the xcdatamodeld filename
-        container = NSPersistentContainer(name: "Zemoga")
-        
-        // load the database if it exists, if not create it.
-        container.loadPersistentStores { storeDescription, error in
-            // resolve conflict by using correct NSMergePolicy
-            self.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-            
-            if let error = error {
-                print("Unresolved error \(error)")
-            }
-        }
     }
     
     func printJSON(data: Data, path: String, method: HttpMethod) {
@@ -81,6 +69,7 @@ class NetworkManager {
                                                  completion: @escaping (Result<T, Error>) -> Void) {
         if Reachability.isConnectedToNetwork() {
             guard let url = URL(string: pathURL) else {
+                log.error("Invalid URL path: -> \(pathURL)")
                 completion(.failure(WebError.badURL))
                 return
             }
@@ -99,16 +88,20 @@ class NetworkManager {
             dataTask = session?.dataTask(with: request) { (data, response, error) in
 
                 if let error = error {
+                    log.error(error.localizedDescription)
+                    log.error("Error getting data information from: -> \(pathURL)")
                     completion(.failure(WebError.requestFailed(error)))
                     return
                 }
 
                 if let response = response as? HTTPURLResponse, !(200...299).contains(response.statusCode) {
+                    log.error("HTTP status code error \(response.statusCode) from: -> \(pathURL)")
                     completion(.failure(WebError.serverError(statusCode: response.statusCode)))
                     return
                 }
 
                 guard let data = data else {
+                    log.error("There is no data from the request: -> \(pathURL)")
                     completion(.failure(WebError.noData))
                     return
                 }
@@ -116,23 +109,22 @@ class NetworkManager {
                 do {
                     self.printJSON(data: data, path: pathURL, method: method)
                     let decoder = JSONDecoder()
-                    decoder.userInfo[CodingUserInfoKey.context!] = self.container.viewContext
-                    print(T.self)
+                    decoder.userInfo[CodingUserInfoKey.context!] = PersistanceManager.shared.container.viewContext
                     let decode = try decoder.decode(T.self, from: data)
                     
-//                    DispatchQueue.main.async {
-//                        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-//                          return
-//                        }
-//                        appDelegate.saveContext()
-//                    }
-                    
-                    completion(.success(decode))
+                    DispatchQueue.main.async {
+                        PersistanceManager.shared.saveContext(entityName: "\(T.self)")
+                        completion(.success(decode))
+                    }
                 } catch {
+                    log.error("Error decoding data from: -> \(pathURL)")
                     completion(.failure(WebError.unknown(error)))
                 }
             }
             dataTask?.resume()
+        } else {
+            log.error("There is no internet connection available.")
+            completion(.failure(WebError.noConnection))
         }
     }
     
@@ -143,6 +135,7 @@ class NetworkManager {
         
         if Reachability.isConnectedToNetwork() {
             guard let url = URL(string: pathURL) else {
+                log.error("Invalid URL path: -> \(pathURL)")
                 completion(.failure(WebError.badURL))
                 return
             }
@@ -161,16 +154,20 @@ class NetworkManager {
             dataTask = session?.dataTask(with: request) { (data, response, error) in
                 
                 if let error = error {
+                    log.error(error.localizedDescription)
+                    log.error("Error getting data information from: -> \(pathURL)")
                     completion(.failure(WebError.requestFailed(error)))
                     return
                 }
                 
                 if let response = response as? HTTPURLResponse, !(200...299).contains(response.statusCode) {
+                    log.error("HTTP status code error \(response.statusCode) from: -> \(pathURL)")
                     completion(.failure(WebError.serverError(statusCode: response.statusCode)))
                     return
                 }
                 
                 guard let data = data else {
+                    log.error("There is no data from the request: -> \(pathURL)")
                     completion(.failure(WebError.noData))
                     return
                 }
@@ -178,22 +175,22 @@ class NetworkManager {
                 do {
                     self.printJSON(data: data, path: pathURL, method: method)
                     let decoder = JSONDecoder()
-                    decoder.userInfo[CodingUserInfoKey.context!] = self.container.viewContext
+                    decoder.userInfo[CodingUserInfoKey.context!] = PersistanceManager.shared.container.viewContext
                     let decode = try decoder.decode([T].self, from: data)
                     
                     DispatchQueue.main.async {
-                       guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                         return
-                       }
-                       appDelegate.saveContext()
-                   }
-                        
-                    completion(.success(decode))
+                        PersistanceManager.shared.saveContext(entityName: "\(T.self)")
+                        completion(.success(decode))
+                    }
                 } catch {
+                    log.error("Error decoding data from: -> \(pathURL)")
                     completion(.failure(WebError.unknown(error)))
                 }
             }
             dataTask?.resume()
+        } else {
+            log.error("There is no internet connection available.")
+            completion(.failure(WebError.noConnection))
         }
     }
 }

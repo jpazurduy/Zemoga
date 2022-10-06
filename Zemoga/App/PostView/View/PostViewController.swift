@@ -23,8 +23,6 @@ class PostViewController: UIViewController {
     private var postTableView: UITableView!
     private var refreshControl: UIRefreshControl!
     
-    private var likedPosts: [Int: Bool] = [:]
-    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,40 +107,18 @@ class PostViewController: UIViewController {
         postTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
         postTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
     }
-
-    // MARK: - Custom
-    func setLikedPosts() {
-//        var index = 0
-//        while index < viewModel.posts.count {
-//            var post = viewModel.posts[index] as! Post
-//            if likedPosts[post.id] != nil {
-//                (viewModel.posts[index] as! Post).isLiked = likedPosts[post.id]!
-//            }
-//            index+=1
-//        }
-    }
-    
-    func sortPosts() {
-//        var sortedPosts: [Post] = []
-//        let liked = viewModel.posts.filter({($0 as! Post).isLiked==true})
-//        let unliked = viewModel.posts.filter({($0 as! Post).isLiked==false})
-//        sortedPosts.append(contentsOf: liked)
-//        sortedPosts.append(contentsOf: unliked)
-        
-        //viewModel.posts = sortedPosts
-    }
     
     // MARK: - Action Button
     
     @objc private func refreshTableView() {
+        refreshControl.beginRefreshing()
         viewModel.requestPosts()
-        refreshControl.endRefreshing()
     }
     
     @objc func removePostAction(sender: Any) {
-        //viewModel.posts.removeAll(where: { ($0 as! Post).isLiked == false })
+        viewModel.posts.removeAll(where: { ($0 as! Post).isLiked == false })
         
-        //postTableView.reloadData()
+        postTableView.reloadData()
     }
 }
 
@@ -154,7 +130,7 @@ extension PostViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier) as! PostTableViewCell
-        cell.setupPost(post: (viewModel.posts[indexPath.row] as! Post), likedPosts: self.likedPosts)
+        cell.setupPost(post: (viewModel.posts[indexPath.row] as! Post), likedPosts: viewModel.likedPosts)
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         cell.selectionStyle = .none
         return cell
@@ -181,22 +157,30 @@ extension PostViewController: UITableViewDelegate {
 
 // MARK: - PostViewModelDelegate
 extension PostViewController: PostViewModelDelegate {
-    func updateView(posts: [Post]) {
+    func updateView() {
         defer { GlobalProgressHUD.hide() }
         
-        setLikedPosts()
-        sortPosts()
+        viewModel.setLikedPosts()
+        viewModel.sortedPosts()
         
+        refreshControl.endRefreshing()
         postTableView.reloadData()
     }
     
     func showError(error: String) {
-        print(error)
+        defer { GlobalProgressHUD.hide() }
+        
+        DispatchQueue.main.async { [unowned self] in
+            self.showAlertWithAction(title: "Information Message", message: "There was an problem trying to recieve the information please try again in or contact with the desktop service at support@service.com") { [unowned self] _ in
+                self.postTableView.reloadData()
+                self.refreshControl.endRefreshing()
+            }
+        }
     }
 }
-// MARK: - DetailViewDelegate
+// MARK: - DetailViewDelegate _
 extension PostViewController: DetailViewDelegate {
     func isLiked(value: Bool, id: Int) {
-        likedPosts[id] = value
+        viewModel.likedPosts[id] = value
     }
 }

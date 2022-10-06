@@ -18,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {let log = SwiftyBeaver.se
         // Override point for customization after application launch.
         
         setupLogger()
+        
+        print("Documents Directory: ", FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).last ?? "Not Found!")
+        
         return true
     }
 
@@ -39,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {let log = SwiftyBeaver.se
         // add log destinations. at least one is needed!
         let console = ConsoleDestination()  // log to Xcode Console
         let file = FileDestination()  // log to default swiftybeaver.log file
-        print(file.logFileURL as Any)
+        //print(file.logFileURL as Any)
 
         // use custom format and set console output to short time, log level & message
         console.format = "$DHH:mm:ss$d $L $M"
@@ -83,22 +86,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {let log = SwiftyBeaver.se
         })
         return container
     }()
-
-    // MARK: - Core Data Saving support
-
-    func saveContext() {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-                //log.info("Entity \(object.self) was saved successful")
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }
-    }
 }
 

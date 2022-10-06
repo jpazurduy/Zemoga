@@ -21,11 +21,17 @@ public class Post: NSManagedObject, Codable {
     
     required convenience public init(from decoder: Decoder) throws {
         // return the context from the decoder userinfo dictionary
-        guard let contextUserInfoKey = CodingUserInfoKey.context else { fatalError("decode failure") }
+        guard let contextUserInfoKey = CodingUserInfoKey.context else {
+            fatalError("decode failure")
+        }
         
-        guard let managedObjectContext = decoder.userInfo[contextUserInfoKey] as? NSManagedObjectContext else { fatalError("decode failure") }
+        guard let managedObjectContext = decoder.userInfo[contextUserInfoKey] as? NSManagedObjectContext else {
+            fatalError("decode failure")
+        }
         
-        guard let entity = NSEntityDescription.entity(forEntityName: "Post", in: managedObjectContext) else { fatalError("decode failure") }
+        guard let entity = NSEntityDescription.entity(forEntityName: "Post", in: managedObjectContext) else {
+            fatalError("decode failure")
+        }
         
         // Super init of the NSManagedObject
         self.init(entity: entity, insertInto: managedObjectContext)
@@ -35,9 +41,10 @@ public class Post: NSManagedObject, Codable {
             userId = try values.decode(Int.self, forKey: .userId)
             title = try values.decode(String.self, forKey: .title)
             body = try values.decode(String.self, forKey: .body)
-            //isLiked = try values.decode(Bool.self, forKey: .isLiked)
-        } catch {
-            print ("error")
+            isLiked = try values.decode(Bool.self, forKey: .isLiked)
+        } catch (let error) {
+            log.error("Post model decoding error: \(error)")
+            print("error")
         }
     }
     
@@ -49,8 +56,8 @@ public class Post: NSManagedObject, Codable {
             try container.encode(title, forKey: .title)
             try container.encode(body, forKey: .body)
             try container.encode(isLiked, forKey: .isLiked)
-        } catch {
-            print("error")
+        } catch (let error) {
+            log.error("Post model encoding error: \(error)")
         }
     }
 }
