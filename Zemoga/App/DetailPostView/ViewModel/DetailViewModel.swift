@@ -32,7 +32,7 @@ class DetailViewModel {
                     author = value
                     self.delegate?.updateView(author: value)
                 case .failure(let error):
-                    log.info("Error getting author information : " + error.localizedDescription)
+                    log.error("Error getting author information: " + error.localizedDescription)
                     self.delegate?.showError(error: "Error: \(error.localizedDescription): \(error)")
                 }
             }
@@ -48,7 +48,7 @@ class DetailViewModel {
                     comments = value
                     self.delegate?.updateView(comments: value)
                 case .failure(let error):
-                    log.info("Error getting comments information : " + error.localizedDescription)
+                    log.error("Error getting comments information: " + error.localizedDescription)
                     self.delegate?.showError(error: "Error: \(error.localizedDescription): \(error)")
                 }
             }

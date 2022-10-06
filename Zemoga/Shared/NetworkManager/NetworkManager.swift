@@ -5,7 +5,9 @@
 //  Created by Jorge Azurduy on 10/1/22.
 //
 
+import CoreData
 import Foundation
+import UIKit
 
 enum HttpMethod: String {
     case get
@@ -36,6 +38,7 @@ class NetworkManager {
     private var session: URLSession?
     private var dataTask: URLSessionDataTask?
     private var contentType = "application/json"
+    private var container: NSPersistentContainer!
     
     static let shared = NetworkManager()
     
@@ -46,6 +49,19 @@ class NetworkManager {
         self.sessionConfiguration = sessionConfiguration
         self.sessionConfiguration.timeoutIntervalForRequest = timeout
         self.session = URLSession(configuration: self.sessionConfiguration)
+        
+        // Create the persistent container and point to the xcdatamodeld - so matches the xcdatamodeld filename
+        container = NSPersistentContainer(name: "Zemoga")
+        
+        // load the database if it exists, if not create it.
+        container.loadPersistentStores { storeDescription, error in
+            // resolve conflict by using correct NSMergePolicy
+            self.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+            
+            if let error = error {
+                print("Unresolved error \(error)")
+            }
+        }
     }
     
     func printJSON(data: Data, path: String, method: HttpMethod) {
@@ -100,7 +116,17 @@ class NetworkManager {
                 do {
                     self.printJSON(data: data, path: pathURL, method: method)
                     let decoder = JSONDecoder()
+                    decoder.userInfo[CodingUserInfoKey.context!] = self.container.viewContext
+                    print(T.self)
                     let decode = try decoder.decode(T.self, from: data)
+                    
+//                    DispatchQueue.main.async {
+//                        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+//                          return
+//                        }
+//                        appDelegate.saveContext()
+//                    }
+                    
                     completion(.success(decode))
                 } catch {
                     completion(.failure(WebError.unknown(error)))
@@ -152,7 +178,16 @@ class NetworkManager {
                 do {
                     self.printJSON(data: data, path: pathURL, method: method)
                     let decoder = JSONDecoder()
+                    decoder.userInfo[CodingUserInfoKey.context!] = self.container.viewContext
                     let decode = try decoder.decode([T].self, from: data)
+                    
+                    DispatchQueue.main.async {
+                       guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                         return
+                       }
+                       appDelegate.saveContext()
+                   }
+                        
                     completion(.success(decode))
                 } catch {
                     completion(.failure(WebError.unknown(error)))

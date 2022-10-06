@@ -86,13 +86,13 @@ class PostTableViewCell: UITableViewCell {
     
     func setupPost(post: Post, likedPosts: [Int: Bool]) {
         idCell = post.id
-        titleLabel.text = post.title.uppercased()
+        titleLabel.text = post.title?.uppercased()
   
-        if post.isLiked {
-            starImage.image = UIImage(systemName: "star.fill")
-        } else {
-            starImage.image = UIImage(systemName: "star")
-        }
+//        if post.isLiked {
+//            starImage.image = UIImage(systemName: "star.fill")
+//        } else {
+//            starImage.image = UIImage(systemName: "star")
+//        }
         
     }
 }

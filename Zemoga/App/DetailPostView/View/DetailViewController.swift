@@ -62,7 +62,7 @@ class DetailViewController: UIViewController {
     
     func setupPostTitle() {
         postTitleLabel.setText(font: FontManager.black, textColor: Color.primary, size: 18)
-        postTitleLabel.text = viewModel.post.title.uppercased()
+        postTitleLabel.text = viewModel.post.title?.uppercased()
     }
     
     func setupPostDescription() {
@@ -79,11 +79,11 @@ class DetailViewController: UIViewController {
     }
     
     func setupLikeIcon() {
-        if viewModel.post.isLiked {
-            likeThumbImage.image = UIImage(systemName: "hand.thumbsup.fill")
-        } else {
-            likeThumbImage.image = UIImage(systemName: "hand.thumbsup")
-        }
+//        if viewModel.post.isLiked {
+//            likeThumbImage.image = UIImage(systemName: "hand.thumbsup.fill")
+//        } else {
+//            likeThumbImage.image = UIImage(systemName: "hand.thumbsup")
+//        }
     }
     
     func setupLikeButtonContainer() {
@@ -114,13 +114,13 @@ class DetailViewController: UIViewController {
     }
    
     @objc func like() {
-        if viewModel.post.isLiked {
-            likeThumbImage.image = UIImage(systemName: "hand.thumbsup")
-            delegateDetailView.isLiked(value: false, id: viewModel.post.id)
-        } else {
-            likeThumbImage.image = UIImage(systemName: "hand.thumbsup.fill")
-            delegateDetailView.isLiked(value: true, id: viewModel.post.id)
-        }
+//        if viewModel.post.isLiked {
+//            likeThumbImage.image = UIImage(systemName: "hand.thumbsup")
+//            delegateDetailView.isLiked(value: false, id: viewModel.post.id)
+//        } else {
+//            likeThumbImage.image = UIImage(systemName: "hand.thumbsup.fill")
+//            delegateDetailView.isLiked(value: true, id: viewModel.post.id)
+//        }
     }
 }
 

@@ -112,24 +112,24 @@ class PostViewController: UIViewController {
 
     // MARK: - Custom
     func setLikedPosts() {
-        var index = 0
-        while index < viewModel.posts.count {
-            var post = viewModel.posts[index]
-            if likedPosts[post.id] != nil {
-                viewModel.posts[index].isLiked = likedPosts[post.id]!
-            }
-            index+=1
-        }
+//        var index = 0
+//        while index < viewModel.posts.count {
+//            var post = viewModel.posts[index] as! Post
+//            if likedPosts[post.id] != nil {
+//                (viewModel.posts[index] as! Post).isLiked = likedPosts[post.id]!
+//            }
+//            index+=1
+//        }
     }
     
     func sortPosts() {
-        var sortedPosts: [Post] = []
-        let liked = viewModel.posts.filter({$0.isLiked==true})
-        let unliked = viewModel.posts.filter({$0.isLiked==false})
-        sortedPosts.append(contentsOf: liked)
-        sortedPosts.append(contentsOf: unliked)
+//        var sortedPosts: [Post] = []
+//        let liked = viewModel.posts.filter({($0 as! Post).isLiked==true})
+//        let unliked = viewModel.posts.filter({($0 as! Post).isLiked==false})
+//        sortedPosts.append(contentsOf: liked)
+//        sortedPosts.append(contentsOf: unliked)
         
-        viewModel.posts = sortedPosts
+        //viewModel.posts = sortedPosts
     }
     
     // MARK: - Action Button
@@ -140,9 +140,9 @@ class PostViewController: UIViewController {
     }
     
     @objc func removePostAction(sender: Any) {
-        viewModel.posts.removeAll(where: { $0.isLiked == false })
+        //viewModel.posts.removeAll(where: { ($0 as! Post).isLiked == false })
         
-        postTableView.reloadData()
+        //postTableView.reloadData()
     }
 }
 
@@ -154,7 +154,7 @@ extension PostViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier) as! PostTableViewCell
-        cell.setupPost(post: viewModel.posts[indexPath.row], likedPosts: self.likedPosts)
+        cell.setupPost(post: (viewModel.posts[indexPath.row] as! Post), likedPosts: self.likedPosts)
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         cell.selectionStyle = .none
         return cell
@@ -164,7 +164,7 @@ extension PostViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension PostViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegateCoordinator?.goToDetailPost(post: viewModel.posts[indexPath.row])
+        delegateCoordinator?.goToDetailPost(post: (viewModel.posts[indexPath.row] as! Post))
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {

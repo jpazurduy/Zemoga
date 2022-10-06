@@ -6,22 +6,23 @@
 //
 
 import Foundation
+import CoreData
 
 struct Posts: Codable {
     let posts: [Post]
 }
 
-struct Post: Codable {
-    let userId :Int
-    let id: Int
-    let title: String
-    let body: String
-    var isLiked: Bool = false
-
-    private enum CodingKeys: String, CodingKey {
-        case userId
-        case id
-        case title
-        case body
-    }
-}
+//struct Post: Codable {
+//    let userId :Int
+//    let id: Int
+//    let title: String
+//    let body: String
+//    var isLiked: Bool = false
+//
+//    private enum CodingKeys: String, CodingKey {
+//        case userId
+//        case id
+//        case title
+//        case body
+//    }
+//}
