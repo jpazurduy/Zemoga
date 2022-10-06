@@ -3,10 +3,10 @@ This project was implemented using XCode 14 and iOS 16 deployment target.
 - Download repo from:
 https://github.com/jpazurduy/Zemoga.git
 - The project uses cocoapods so we need to download dependencies:
-		Open a terminal windows 
-		Go to the project folder.
-		Execute "pod install" command 
-		Open the workspace.
+- Open a terminal windows 
+- Go to the project folder.
+- Execute "pod install" command 
+- Open the workspace.
 
 # Summary
 - MVVM Architecture
@@ -23,4 +23,4 @@ Colorful, flexible, lightweight logging for Swift 3, Swift 4 & Swift 5. Logs are
 
 
 
-###End
+### End
