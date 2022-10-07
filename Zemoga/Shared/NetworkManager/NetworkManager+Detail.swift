@@ -9,7 +9,7 @@ import Foundation
 
 extension NetworkManager {
     
-    func requestAuthor<U: Encodable>(authorId: Int, parameters: U, completion: @escaping ResultCompletion<Author, Error>) {
+    func requestAuthor<U: Encodable>(authorId: Int32, parameters: U, completion: @escaping ResultCompletion<Author, Error>) {
         let path = Path.getAuthor(id: authorId)
         sendRequest(pathURL: path, parameters: parameters, method: HttpMethod.get) { (result: Result<Author, Error>) in
             switch result {
@@ -21,7 +21,7 @@ extension NetworkManager {
         }
     }
     
-    func requestComments<U: Encodable>(postId: Int, parameters: U, completion: @escaping ResultCompletion<[Comment], Error>) {
+    func requestComments<U: Encodable>(postId: Int32, parameters: U, completion: @escaping ResultCompletion<[Comment], Error>) {
         let path = Path.getComments(postId: postId)
         sendRequest(pathURL: path, parameters: parameters, method: HttpMethod.get) { (result: Result<[Comment], Error>) in
             switch result {

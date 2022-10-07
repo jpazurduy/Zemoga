@@ -18,7 +18,7 @@ class PostViewModel {
     
     var posts: [NSManagedObject] = []
     var container: NSPersistentContainer!
-    var likedPosts: [Int: Bool] = [:]
+    var likedPosts: [Int32: Bool] = [:]
     
     func requestPosts() {
         NetworkManager.shared.requestPosts(parameters: "") { response in

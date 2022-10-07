@@ -180,7 +180,7 @@ extension PostViewController: PostViewModelDelegate {
 }
 // MARK: - DetailViewDelegate _
 extension PostViewController: DetailViewDelegate {
-    func isLiked(value: Bool, id: Int) {
+    func isLiked(value: Bool, id: Int32) {
         viewModel.likedPosts[id] = value
     }
 }

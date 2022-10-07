@@ -14,11 +14,11 @@ struct Path {
     
     static let posts = baseURL + "/posts"
     
-    static func getAuthor(id: Int) -> String {
+    static func getAuthor(id: Int32) -> String {
         return baseURL + "/users/\(id)"
     }
     
-    static func getComments(postId: Int) -> String {
+    static func getComments(postId: Int32) -> String {
         return baseURL + "/comments?postId=\(postId)"
     }
 }

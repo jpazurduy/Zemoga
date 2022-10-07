@@ -18,6 +18,21 @@ public class Post: NSManagedObject, Codable {
         case body = "body"
         case isLiked = "isLiked"
     }
+
+    convenience init(id: Int32, userId: Int32, title: String, body: String, isLiked: Bool = false, context: NSManagedObjectContext?) {
+        
+        // Create the NSEntityDescription
+        let entity = NSEntityDescription.entity(forEntityName: "Post", in: context!)
+
+        // Super init the top init
+        self.init(entity: entity!, insertInto: context)
+        
+        self.id = id
+        self.userId = userId
+        self.title = title
+        self.body = body
+        self.isLiked = isLiked
+    }
     
     required convenience public init(from decoder: Decoder) throws {
         // return the context from the decoder userinfo dictionary
@@ -37,14 +52,13 @@ public class Post: NSManagedObject, Codable {
         self.init(entity: entity, insertInto: managedObjectContext)
         let values = try decoder.container(keyedBy: CodingKeys.self)
         do {
-            id = try values.decode(Int.self, forKey: .id)
-            userId = try values.decode(Int.self, forKey: .userId)
+            id = try values.decode(Int32.self, forKey: .id)
+            userId = try values.decode(Int32.self, forKey: .userId)
             title = try values.decode(String.self, forKey: .title)
             body = try values.decode(String.self, forKey: .body)
-            isLiked = try values.decode(Bool.self, forKey: .isLiked)
+            //isLiked = try values.decode(Bool.self, forKey: .isLiked)
         } catch (let error) {
             log.error("Post model decoding error: \(error)")
-            print("error")
         }
     }
     

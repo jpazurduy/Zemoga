@@ -25,7 +25,7 @@ class PersistanceManager {
             self.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
             
             if let error = error {
-                print("Unresolved error \(error)")
+                log.error("An error occurred loading loadPersistentStores: \(error)")
             }
         }
     }
@@ -33,10 +33,10 @@ class PersistanceManager {
     func saveContext(entityName: String) {
         if container.viewContext.hasChanges {
             do {
-                print ("Saved")
+                log.info("Data saved successfull.")
                 try container.viewContext.save()
             } catch {
-                print("An error occurred while saving: \(error)")
+                log.error("An error occurred while saving data: \(error)")
             }
         }
     }
@@ -49,11 +49,9 @@ class PersistanceManager {
         do {
             // fetch is performed on the NSManagedObjectContext
             data = try container.viewContext.fetch(request)
-            print("Got \(data.count) commits")
             return data
-            //tableView.reloadData()
         } catch {
-            print("Fetch failed")
+            log.error("An error occurred while loading data: \(error)")
             return data
         }
     }

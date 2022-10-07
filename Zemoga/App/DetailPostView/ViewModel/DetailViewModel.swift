@@ -23,7 +23,7 @@ class DetailViewModel {
         self.post = post
     }
     
-    func requestAuthor(authorId: Int) {
+    func requestAuthor(authorId: Int32) {
         NetworkManager.shared.requestAuthor(authorId: authorId, parameters: "") { response in
             DispatchQueue.main.async { [unowned self] in
                 switch response {
@@ -39,7 +39,7 @@ class DetailViewModel {
         }
     }
     
-    func requestComments(postId: Int) {
+    func requestComments(postId: Int32) {
         NetworkManager.shared.requestComments(postId: postId, parameters: "") { response in
             DispatchQueue.main.async { [unowned self] in
                 switch response {

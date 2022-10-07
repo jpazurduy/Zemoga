@@ -8,7 +8,7 @@
 import UIKit
 
 protocol DetailViewDelegate: AnyObject {
-    func isLiked(value: Bool, id: Int)
+    func isLiked(value: Bool, id: Int32)
 }
 
 protocol DetailViewCoordinatorDelegate: AnyObject {

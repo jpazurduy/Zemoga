@@ -81,7 +81,7 @@ class NetworkManager {
                 let encoder = JSONEncoder()
                 encoder.outputFormatting = .prettyPrinted
                 let jsonData = try? encoder.encode(params)
-                print(String(data: jsonData!, encoding: .utf8)!)
+                //print(String(data: jsonData!, encoding: .utf8)!)
                 request.httpBody = jsonData
             }
 
@@ -107,7 +107,7 @@ class NetworkManager {
                 }
                             
                 do {
-                    self.printJSON(data: data, path: pathURL, method: method)
+                    //self.printJSON(data: data, path: pathURL, method: method)
                     let decoder = JSONDecoder()
                     decoder.userInfo[CodingUserInfoKey.context!] = PersistanceManager.shared.container.viewContext
                     let decode = try decoder.decode(T.self, from: data)
@@ -147,7 +147,7 @@ class NetworkManager {
                 let encoder = JSONEncoder()
                 encoder.outputFormatting = .prettyPrinted
                 let jsonData = try? encoder.encode(params)
-                print(String(data: jsonData!, encoding: .utf8)!)
+                //print(String(data: jsonData!, encoding: .utf8)!)
                 request.httpBody = jsonData
             }
             
@@ -173,7 +173,7 @@ class NetworkManager {
                 }
                 
                 do {
-                    self.printJSON(data: data, path: pathURL, method: method)
+                    //self.printJSON(data: data, path: pathURL, method: method)
                     let decoder = JSONDecoder()
                     decoder.userInfo[CodingUserInfoKey.context!] = PersistanceManager.shared.container.viewContext
                     let decode = try decoder.decode([T].self, from: data)

@@ -12,7 +12,7 @@ class PostTableViewCell: UITableViewCell {
     // MARK: - Properties
     static let identifier = "postsCellId"
     
-    private var idCell: Int!
+    private var idCell: Int32!
     private var cardView :UIView!
     private var titleLabel: UILabel!
     private var bodyLabel: UILabel!
@@ -84,7 +84,7 @@ class PostTableViewCell: UITableViewCell {
         starImage.heightAnchor.constraint(equalToConstant: 16).isActive = true
     }
     
-    func setupPost(post: Post, likedPosts: [Int: Bool]) {
+    func setupPost(post: Post, likedPosts: [Int32: Bool]) {
         idCell = post.id
         titleLabel.text = post.title?.uppercased()
   

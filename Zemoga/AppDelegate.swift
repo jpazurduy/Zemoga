@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {let log = SwiftyBeaver.se
         
         setupLogger()
         
-        print("Documents Directory: ", FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).last ?? "Not Found!")
+        //print("Documents Directory: ", FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).last ?? "Not Found!")
         
         return true
     }
