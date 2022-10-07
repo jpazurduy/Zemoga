@@ -20,8 +20,8 @@ Cloud solution to review and track app behavior for devs.
 Colorful, flexible, lightweight logging for Swift 3, Swift 4 & Swift 5. Logs are stored in cl
 
 # App screens
-![](https://drive.google.com/file/d/1VsUbfmaQuSXDV7xwDxOo0oq4lpamHk4L/view?usp=sharing)
-![](https://link.shutterfly.com/VENfw0siWtb) 
+![](Resources/Images/1.png)
+![](Resources/Images/2.png) 
 
 # Notes
 The CoreData support is only for the first screen(PostViewController), DetailViewController does not have implementation to persist data.
