@@ -14,8 +14,6 @@ class PostViewCoordinator: Coordinator {
     private let navigationController: NavigatorView
     private var postViewController: PostViewController?
     private var detailViewCoordinator: DetailViewCoordinator!
-    
-    // Navigation
     private var detailViewController: DetailViewController!
     
     init(navigationController: NavigatorView) {

@@ -43,11 +43,8 @@ class PersistanceManager {
     
     func loadPostData() -> [NSManagedObject] {
         let request: NSFetchRequest<Post> = Post.fetchRequest()
-//        let sort = NSSortDescriptor(key: "gitcommit.committer.date", ascending: false)
-//        request.sortDescriptors = [sort]
         
         do {
-            // fetch is performed on the NSManagedObjectContext
             data = try container.viewContext.fetch(request)
             return data
         } catch {

@@ -26,7 +26,6 @@
 		7F72D59A28E64F2200709685 /* PostViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F72D59928E64F2200709685 /* PostViewCoordinator.swift */; };
 		7F72D59D28E653E800709685 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F72D59C28E653E700709685 /* UIApplication.swift */; };
 		7F72D59F28E74D8B00709685 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F72D59E28E74D8B00709685 /* PostViewModel.swift */; };
-		7F72D5A128E74D9400709685 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F72D5A028E74D9400709685 /* Post.swift */; };
 		7F72D5A328E7517400709685 /* NetworkManager+Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F72D5A228E7517400709685 /* NetworkManager+Post.swift */; };
 		7F72D5AD28E7805F00709685 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F72D5AC28E7805F00709685 /* PostTableViewCell.swift */; };
 		7F72D5AF28E78DAB00709685 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F72D5AE28E78DAB00709685 /* UIView.swift */; };
@@ -93,7 +92,6 @@
 		7F72D59928E64F2200709685 /* PostViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewCoordinator.swift; sourceTree = "<group>"; };
 		7F72D59C28E653E700709685 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		7F72D59E28E74D8B00709685 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
-		7F72D5A028E74D9400709685 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		7F72D5A228E7517400709685 /* NetworkManager+Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Post.swift"; sourceTree = "<group>"; };
 		7F72D5AC28E7805F00709685 /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		7F72D5AE28E78DAB00709685 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
@@ -113,8 +111,8 @@
 		7F72D5D628E7A07700709685 /* FontManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontManager.swift; sourceTree = "<group>"; };
 		7F7306AB28ECE7AA0041306E /* DetailTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTest.swift; sourceTree = "<group>"; };
 		7F85207028EE2C5900FE3B7B /* Zemoga.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Zemoga.xcdatamodel; sourceTree = "<group>"; };
-		7F85207828EE33EC00FE3B7B /* Post+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		7F85207928EE33EC00FE3B7B /* Post+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Post+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		7F85207828EE33EC00FE3B7B /* Post+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Post+CoreDataClass.swift"; path = "Zemoga/App/PostView/Model/Post+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		7F85207928EE33EC00FE3B7B /* Post+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Post+CoreDataProperties.swift"; path = "Zemoga/App/PostView/Model/Post+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		7F85207C28EE39AB00FE3B7B /* CodingUserInfoKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodingUserInfoKey.swift; sourceTree = "<group>"; };
 		7F85207E28EEFB2D00FE3B7B /* PersistanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceManager.swift; sourceTree = "<group>"; };
 		7FC0FABE28EAC5090003C068 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
@@ -305,7 +303,8 @@
 		7F72D59228E64E6F00709685 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				7F72D5A028E74D9400709685 /* Post.swift */,
+				7F85207828EE33EC00FE3B7B /* Post+CoreDataClass.swift */,
+				7F85207928EE33EC00FE3B7B /* Post+CoreDataProperties.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -413,8 +412,6 @@
 			isa = PBXGroup;
 			children = (
 				7F85207E28EEFB2D00FE3B7B /* PersistanceManager.swift */,
-				7F85207828EE33EC00FE3B7B /* Post+CoreDataClass.swift */,
-				7F85207928EE33EC00FE3B7B /* Post+CoreDataProperties.swift */,
 				7F85206F28EE2C5900FE3B7B /* Zemoga.xcdatamodeld */,
 			);
 			path = DataBase;
@@ -643,7 +640,6 @@
 				7F72D5B128E78DE500709685 /* UILabel.swift in Sources */,
 				7F0CF19728EB3328005FB341 /* UIViewController.swift in Sources */,
 				7F72D58B28E64D7700709685 /* ApplicationCoordinator.swift in Sources */,
-				7F72D5A128E74D9400709685 /* Post.swift in Sources */,
 				7FDD2D1C28EA258100FF1C84 /* DetailViewCoordinator.swift in Sources */,
 				7F85207128EE2C5900FE3B7B /* Zemoga.xcdatamodeld in Sources */,
 				7F85207A28EE33EC00FE3B7B /* Post+CoreDataClass.swift in Sources */,
