@@ -9,6 +9,8 @@ https://github.com/jpazurduy/Zemoga.git
 - Open the workspace.
 
 # Summary
+- The project is using Coordinatoor pattern for navigation and singleton to manage API calls.
+- The Post view was made programatically and the Detail view using autolayout interface. 
 - MVVM Architecture
 - The projects is using 2 third party libs:
 ### MBProgressHUD
