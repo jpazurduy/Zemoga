@@ -20,7 +20,7 @@ Cloud solution to review and track app behavior for devs.
 Colorful, flexible, lightweight logging for Swift 3, Swift 4 & Swift 5. Logs are stored in cl
 
 # App screens
-![](https://link.shutterfly.com/nnwRdxyiWtb)
+![](https://drive.google.com/file/d/1VsUbfmaQuSXDV7xwDxOo0oq4lpamHk4L/view?usp=sharing)
 ![](https://link.shutterfly.com/VENfw0siWtb) 
 
 # Notes
