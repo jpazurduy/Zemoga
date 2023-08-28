@@ -51,11 +51,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {let log = SwiftyBeaver.se
         log.addDestination(console)
         log.addDestination(file)
         
-        let platform = SBPlatformDestination(appID: "qbPEWm",
-                                             appSecret: "pikrXbdTz9geonW2httqdskcewQuxx47",
-                                             encryptionKey: "1kngljjsnlgyzxmh9eqsgfal6lfavdpy")
-
-        SwiftyBeaver.addDestination(platform)
+//        let platform = SBPlatformDestination(appID: "qbPEWm",
+//                                             appSecret: "pikrXbdTz9geonW2httqdskcewQuxx47",
+//                                             encryptionKey: "1kngljjsnlgyzxmh9eqsgfal6lfavdpy")
+//
+//        SwiftyBeaver.addDestination(platform)
     }
     
     // MARK: - Core Data stack
